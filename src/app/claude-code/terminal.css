@@ -1,0 +1,178 @@
+/* Terminal window */
+.terminal-window {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0d1117;
+  border: 1px solid #21262d;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Title bar */
+.terminal-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #161b22;
+  border-bottom: 1px solid #21262d;
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-dot-red { background: #ff5f57; }
+.terminal-dot-yellow { background: #febc2e; }
+.terminal-dot-green { background: #28c840; }
+
+.terminal-title {
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  color: #484f58;
+  margin-left: 4px;
+}
+
+/* Content area */
+.terminal-content {
+  padding: 16px;
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-y: auto;
+  max-height: calc(100vh - 120px);
+  min-height: 300px;
+}
+
+/* Lines */
+.terminal-line {
+  min-height: 1.6em;
+}
+
+.terminal-blank {
+  height: 10px;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.terminal-line-animate {
+  animation: fadeIn 0.25s ease-out;
+}
+
+/* Cursor */
+.terminal-cursor {
+  color: #484f58;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* User prompt */
+.terminal-prompt {
+  color: #d2a8ff;
+  font-weight: 600;
+}
+
+.terminal-user-text {
+  color: #f0f6fc;
+}
+
+/* Assistant text */
+.terminal-assistant {
+  color: #c9d1d9;
+  padding-left: 4px;
+}
+
+/* System text */
+.terminal-system {
+  color: #484f58;
+}
+
+/* Tool blocks */
+.terminal-tool {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+
+.terminal-tool-icon {
+  font-size: 10px;
+  line-height: 1;
+}
+
+.terminal-tool-blue { color: #58a6ff; }
+.terminal-tool-orange { color: #d29922; }
+.terminal-tool-green { color: #3fb950; }
+
+.terminal-tool-label {
+  color: #8b949e;
+  font-size: 12px;
+}
+
+.terminal-tool-path {
+  color: #58a6ff;
+  font-size: 12px;
+}
+
+/* Tool body (indented with left border) */
+.terminal-tool-body {
+  color: #8b949e;
+  padding-left: 20px;
+  border-left: 2px solid #21262d;
+  margin-left: 4px;
+  font-size: 12px;
+}
+
+/* Diffs */
+.terminal-diff-add {
+  color: #3fb950;
+  background: rgba(46, 160, 67, 0.08);
+  padding: 0 4px;
+  margin: 0 -4px;
+  padding-left: 20px;
+  border-left: 2px solid #238636;
+  margin-left: 4px;
+  font-size: 12px;
+}
+
+.terminal-diff-remove {
+  color: #f85149;
+  background: rgba(248, 81, 73, 0.08);
+  padding: 0 4px;
+  margin: 0 -4px;
+  padding-left: 20px;
+  border-left: 2px solid #da3633;
+  margin-left: 4px;
+  font-size: 12px;
+}
+
+.terminal-diff-context {
+  color: #484f58;
+  padding-left: 20px;
+  border-left: 2px solid #21262d;
+  margin-left: 4px;
+  font-size: 12px;
+}
+
+/* Bash output */
+.terminal-bash-output {
+  color: #8b949e;
+  padding-left: 20px;
+  border-left: 2px solid #21262d;
+  margin-left: 4px;
+  font-size: 12px;
+}
