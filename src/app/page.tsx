@@ -9,6 +9,13 @@ const GUIDES = [
     color: "#7aa2f7",
   },
   {
+    href: "/context-management",
+    title: "Context Management",
+    description: "Your AI forgets everything between sessions. Here's how to give it memory, project knowledge, and team conventions.",
+    tag: "Interactive guide",
+    color: "#d2a8ff",
+  },
+  {
     href: "/gpu-scheduling",
     title: "GPU Scheduling",
     description: "When you send a prompt to an AI, hundreds of GPUs decide who goes first. This is what that looks like.",
