@@ -1,123 +1,144 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
-import { Terminal } from "./Terminal";
-import { CH1_SCRIPTS, CH2_SCRIPTS, CH3_SCRIPTS, CH4_SCRIPTS } from "./scripts";
-import type { StageScript } from "./scripts";
+import { ChatSimulator } from "./ChatSimulator";
+import type { ChatStageScript } from "./ChatSimulator";
+import { CH1_SCRIPTS, CH2_SCRIPTS, CH3_SCRIPTS, CH4_SCRIPTS, CH5_SCRIPTS } from "./scripts";
 import { ChevronDown } from "lucide-react";
-
-// ── Chapter definitions ──
 
 interface Chapter {
   title: string;
   subtitle: string;
-  scripts: StageScript[];
+  scripts: ChatStageScript[];
   stages: { title: string; body: string }[];
   divider?: { text: string; heading: string };
+  aiName?: string;
+  aiEmoji?: string;
 }
 
 const CHAPTERS: Chapter[] = [
   {
     title: "Chapter 1",
-    subtitle: "The problem",
+    subtitle: "The stranger",
     scripts: CH1_SCRIPTS,
+    aiName: "AI",
+    aiEmoji: "○",
     stages: [
       {
-        title: "You explain things. It gets them right.",
-        body: "In the moment, Claude understands perfectly. Your tools, your conventions, your API — it does exactly what you want.",
+        title: "It's friendly. But it doesn't know you.",
+        body: "You open the AI and ask for help. It responds instantly — but with generic advice that could be for anyone.",
       },
       {
-        title: "Next session: gone.",
-        body: "Come back tomorrow and Claude has no idea what you told it. It goes back to its defaults — wrong tools, wrong URLs, wrong patterns.",
+        title: "It forgot everything",
+        body: "You talked last week. You explained your project, your struggles, what you need. Today? Gone. You have to start over from scratch.",
       },
       {
-        title: "You re-explain. Every. Time.",
-        body: "\"No, I told you — we use Tailwind, not CSS files.\" You end up repeating yourself every session. That gets old fast.",
-      },
-      {
-        title: "Every session starts from zero",
-        body: "This is the default. Claude doesn't carry anything between conversations. Your instructions, preferences, project knowledge — all gone when you close the window.",
+        title: "Every time, the same blank stare",
+        body: "Without memory, every conversation is a first date. You explain yourself, it gives surface-level help, and next time you do it all again.",
       },
     ],
   },
   {
     title: "Chapter 2",
-    subtitle: "The quick fix",
+    subtitle: "Tell it about you",
     scripts: CH2_SCRIPTS,
+    aiName: "AI",
+    aiEmoji: "○",
     divider: {
-      text: "There's a two-word fix for this.",
-      heading: "\"Remember this.\"",
+      text: "What if instead of starting from scratch...",
+      heading: "You introduced yourself?",
     },
     stages: [
       {
-        title: "Just say \"remember\"",
-        body: "Tell Claude what to remember in plain English. It saves it to a file that persists across sessions. That's it.",
+        title: "\"Here's who I am\"",
+        body: "Tell the AI about yourself — your name, what you're working on, where you are in the process. It immediately starts giving better, more relevant help.",
       },
       {
-        title: "Next session: it knows",
-        body: "Claude reads its memory at the start of every conversation. Your preferences are there. No more re-explaining.",
+        title: "\"Here's where I struggle\"",
+        body: "The more honest you are about what's hard for you, the better it can help. It doesn't judge — it adjusts.",
       },
       {
-        title: "Keep adding over time",
-        body: "Every time you correct Claude or teach it something new, say \"remember that.\" Your memory file grows into a perfect set of instructions.",
-      },
-      {
-        title: "It compounds",
-        body: "After a week of \"remember this\", Claude knows your tools, your file structure, your naming conventions, your API endpoints. It just works the way you expect.",
+        title: "\"Remember this\"",
+        body: "Two words and everything you just shared gets saved. Next time you come back, it already knows you. No more re-explaining.",
       },
     ],
   },
   {
     title: "Chapter 3",
-    subtitle: "Project context",
+    subtitle: "Give it a personality",
     scripts: CH3_SCRIPTS,
+    aiName: "Sage",
+    aiEmoji: "✦",
     divider: {
-      text: "Personal memory is great. But what about your team?",
-      heading: "Put context where the project is.",
+      text: "The default AI is helpful but impersonal. What if it felt like talking to someone you chose?",
+      heading: "Make it yours.",
     },
     stages: [
       {
-        title: "One file in your project",
-        body: "Drop a CLAUDE.md in your project folder. Every time Claude works on this project, it reads this file first — like onboarding notes for a new teammate.",
+        title: "Tell it how to be",
+        body: "Warm or direct? Concise or detailed? Give it a name, a style, a way of talking. You're designing the relationship.",
       },
       {
-        title: "How your team works",
-        body: "Add your naming conventions, file organization, testing rules, commit style. Now Claude follows the same rules as everyone on your team.",
+        title: "It becomes that person",
+        body: "The shift is immediate. Same AI, completely different feel. It talks the way you asked, focuses on what matters, skips what doesn't.",
       },
       {
-        title: "How your app is built",
-        body: "Explain the big picture — what talks to what, where data lives, how things connect. This helps Claude put new code in the right place.",
+        title: "The help gets real",
+        body: "Instead of generic writing tips, you get specific feedback on your actual work, in the style you asked for. That's the difference identity makes.",
       },
       {
-        title: "Anyone on your team gets it for free",
-        body: "A new person clones the repo and starts using Claude. No setup, no configuration — the CLAUDE.md teaches Claude everything about this project automatically.",
+        title: "Night and day",
+        body: "Compare \"here are some tips for children's books\" to a friend who rewrites your paragraph and tells you exactly what to fix. Same AI. Different relationship.",
       },
     ],
   },
   {
     title: "Chapter 4",
-    subtitle: "Getting it right",
+    subtitle: "It grows with you",
     scripts: CH4_SCRIPTS,
+    aiName: "Sage",
+    aiEmoji: "✦",
     divider: {
-      text: "More context isn't always better.",
-      heading: "The right context is what matters.",
+      text: "Memory isn't just about convenience.",
+      heading: "It's about getting better together.",
     },
     stages: [
       {
-        title: "Too little: Claude guesses",
-        body: "Without context, Claude has to explore your whole codebase just to understand the basics. It asks a lot of questions instead of just helping.",
+        title: "It picks up where you left off",
+        body: "Come back after a week and it remembers your project, your patterns, your goals. The conversation continues, not restarts.",
       },
       {
-        title: "Too much: Claude gets confused",
-        body: "A giant context file with old notes, contradictions, and irrelevant details makes Claude worse. It can't tell what's current and what's outdated.",
+        title: "You can shape it over time",
+        body: "\"Always show me a rewrite, not just feedback.\" Every preference you add makes the next conversation better.",
       },
       {
-        title: "Just right: Claude nails it",
-        body: "A short, current file with your stack, structure, conventions, and known issues. Claude goes straight to the right answer.",
+        title: "It sees your growth",
+        body: "After a month, it can tell you how you've improved, what patterns you've broken, and where to push next. It has context no single conversation could give.",
+      },
+    ],
+  },
+  {
+    title: "Chapter 5",
+    subtitle: "What you can do together",
+    scripts: CH5_SCRIPTS,
+    aiName: "Sage",
+    aiEmoji: "✦",
+    divider: {
+      text: "This isn't just a chatbot anymore.",
+      heading: "It's a creative partner.",
+    },
+    stages: [
+      {
+        title: "It knows what matters today",
+        body: "\"You have 2 hours? Focus on this one scene.\" It knows your project, your timeline, and what's most important right now.",
       },
       {
-        title: "The rule of thumb",
-        body: "Write your CLAUDE.md like you're onboarding a new teammate. What would you tell them on day one? Current tools, how things are organized, what to watch out for. That's it.",
+        title: "It pushes you in the right direction",
+        body: "When you're stuck, it doesn't give generic advice. It gives you the insight that unlocks the next step — because it knows your work deeply.",
+      },
+      {
+        title: "It's been there the whole time",
+        body: "When you finish your project, the AI that helped you has context on every chapter, every struggle, every breakthrough. That's a relationship, not a tool.",
       },
     ],
   },
@@ -163,7 +184,7 @@ function useChapterObservers(isDesktop: boolean, chapterCount: number) {
         },
         { threshold: 0.4, rootMargin: "-30% 0px -30% 0px" }
       );
-      refsArray.current[chIdx].current.forEach((ref) => ref && observer.observe(ref));
+      refsArray.current[chIdx].current.forEach(ref => ref && observer.observe(ref));
       observers.push(observer);
     }
     return () => observers.forEach(o => o.disconnect());
@@ -174,7 +195,7 @@ function useChapterObservers(isDesktop: boolean, chapterCount: number) {
 
 // ── App ──
 
-export default function ContextManagement() {
+export default function PersonalAI() {
   const [started, setStarted] = useState(false);
   if (!started) return <Landing onStart={() => setStarted(true)} />;
   return <ScrollExperience />;
@@ -185,13 +206,14 @@ function Landing({ onStart }: { onStart: () => void }) {
     <div className="min-h-screen flex items-center justify-center p-8" style={{ background: "var(--bg)" }}>
       <div className="max-w-xl text-center">
         <h1 className="text-3xl font-bold leading-tight mb-6" style={{ color: "var(--fg)" }}>
-          You told your AI something<br />yesterday.<br />Today it has no idea.
+          What if your AI<br />actually knew you?
         </h1>
         <p className="text-base leading-relaxed mb-8" style={{ color: "var(--muted)" }}>
-          AI agents start fresh every session. Your preferences, your project knowledge,
-          your team's conventions — gone every time.
+          Right now, every conversation starts from scratch.
+          Your AI doesn't remember yesterday, doesn't know your goals,
+          and gives the same generic help to everyone.
           <br /><br />
-          Here's how to fix that.
+          It doesn't have to be that way.
         </p>
         <button
           onClick={onStart}
@@ -200,7 +222,7 @@ function Landing({ onStart }: { onStart: () => void }) {
           onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
           onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
         >
-          Start Exploring
+          See How
         </button>
       </div>
     </div>
@@ -236,8 +258,6 @@ function ScrollExperience() {
     active: chStages[i] >= 0,
     current: chStages[i] >= 0 && (i === CHAPTERS.length - 1 || chStages[i + 1] < 0),
   }));
-
-  const allStages = CHAPTERS.flatMap(c => c.stages);
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
@@ -278,19 +298,25 @@ function ScrollExperience() {
             </div>
           )}
 
+          {/* Desktop */}
           <div className="hidden lg:flex max-w-[1400px] mx-auto relative">
-            <div className="sticky top-0 self-start w-[55%] h-screen overflow-y-auto p-6 flex flex-col justify-center">
+            <div className="sticky top-0 self-start w-[50%] h-screen overflow-y-auto p-6 flex flex-col justify-center">
               <div className="text-xs font-mono mb-3" style={{ color: "var(--faint)" }}>
                 {ch.title} <span style={{ color: "var(--accent)" }}>/ {ch.subtitle}</span>
               </div>
-              <Terminal scripts={ch.scripts} activeStage={isDesktop ? chStages[chIdx] : ch.stages.length - 1} />
+              <ChatSimulator
+                scripts={ch.scripts}
+                activeStage={isDesktop ? chStages[chIdx] : ch.stages.length - 1}
+                aiName={ch.aiName}
+                aiEmoji={ch.aiEmoji}
+              />
             </div>
-            <div className="w-[45%]">
+            <div className="w-[50%]">
               {ch.stages.map((s, i) => (
                 <div
                   key={i}
-                  ref={(el) => { refsArray.current[chIdx].current[i] = el; }}
-                  className="min-h-[80vh] flex items-center px-8"
+                  ref={el => { refsArray.current[chIdx].current[i] = el; }}
+                  className="min-h-[80vh] flex items-center px-10"
                 >
                   <div
                     className="max-w-md transition-all duration-700"
@@ -310,6 +336,7 @@ function ScrollExperience() {
             </div>
           </div>
 
+          {/* Mobile */}
           <div className="lg:hidden max-w-2xl mx-auto px-4 py-8">
             <div className="text-xs font-mono mb-4" style={{ color: "var(--faint)" }}>
               {ch.title} <span style={{ color: "var(--accent)" }}>/ {ch.subtitle}</span>
@@ -318,27 +345,33 @@ function ScrollExperience() {
               <div key={i} className="mb-12">
                 <h2 className="text-lg font-semibold mb-2" style={{ color: "var(--fg)" }}>{s.title}</h2>
                 <p className="text-sm leading-relaxed mb-4" style={{ color: "var(--muted)" }}>{s.body}</p>
-                <Terminal scripts={[ch.scripts[i]]} activeStage={0} />
+                <ChatSimulator
+                  scripts={[ch.scripts[i]]}
+                  activeStage={0}
+                  aiName={ch.aiName}
+                  aiEmoji={ch.aiEmoji}
+                />
               </div>
             ))}
           </div>
         </div>
       ))}
 
+      {/* Outro */}
       <div className="max-w-xl mx-auto py-24 px-4 text-center">
         <p className="text-lg font-semibold mb-3" style={{ color: "var(--fg)" }}>
-          Context is everything.
+          This is what AI is supposed to feel like.
         </p>
         <p className="text-sm mb-8" style={{ color: "var(--muted)" }}>
-          The difference between an AI that guesses and one that just knows?
-          A few lines of text that tell it how you work.
+          Not a search engine. Not a chatbot. A partner that knows you,
+          grows with you, and gets better the more you work together.
         </p>
         <a
-          href="/claude-code"
+          href="/"
           className="px-5 py-2.5 rounded-lg font-medium text-white"
           style={{ background: "var(--accent)" }}
         >
-          Learn Claude Code →
+          Explore more guides →
         </a>
       </div>
 

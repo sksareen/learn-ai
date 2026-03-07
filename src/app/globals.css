@@ -3,16 +3,43 @@
 @theme inline {
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-bg-card: var(--bg-card);
+  --color-bg-surface: var(--bg-surface);
+  --color-border: var(--border-color);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
 }
 
+/* Light theme (default) */
 :root {
-  --background: #0f0f14;
-  --foreground: #c9d1d9;
+  --bg: #f8fafc;
+  --fg: #1e293b;
+  --bg-card: #ffffff;
+  --bg-surface: #f1f5f9;
+  --border-color: #e2e8f0;
+  --muted: #64748b;
+  --faint: #94a3b8;
+  --accent: #3b82f6;
+}
+
+/* Dark theme */
+.dark {
+  --bg: #0a0c10;
+  --fg: #e6edf3;
+  --bg-card: #161b22;
+  --bg-surface: #0d1117;
+  --border-color: #21262d;
+  --muted: #8b949e;
+  --faint: #484f58;
+  --accent: #58a6ff;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--fg);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  transition: background 0.3s, color 0.3s;
 }

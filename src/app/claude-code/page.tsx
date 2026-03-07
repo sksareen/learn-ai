@@ -298,12 +298,12 @@ export default function LearnClaudeCode() {
 
 function Landing({ onStart }: { onStart: () => void }) {
   return (
-    <div className="min-h-screen flex items-center justify-center p-8" style={{ background: "#0f0f14" }}>
+    <div className="min-h-screen flex items-center justify-center p-8" style={{ background: "var(--bg)" }}>
       <div className="max-w-xl text-center">
-        <h1 className="text-3xl font-bold leading-tight mb-6" style={{ color: "#c0caf5" }}>
+        <h1 className="text-3xl font-bold leading-tight mb-6" style={{ color: "var(--fg)" }}>
           What if your AI<br />could do anything<br />on your computer?
         </h1>
-        <p className="text-base leading-relaxed mb-8" style={{ color: "#565869" }}>
+        <p className="text-base leading-relaxed mb-8" style={{ color: "var(--faint)" }}>
           Claude Code is an AI that works directly on your projects.
           It reads your files, makes changes, checks its work, and fixes what breaks —
           all from a simple conversation.
@@ -313,9 +313,9 @@ function Landing({ onStart }: { onStart: () => void }) {
         <button
           onClick={onStart}
           className="px-6 py-3 rounded-lg font-medium text-white transition-colors"
-          style={{ background: "#7aa2f7" }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "#89b4fa")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "#7aa2f7")}
+          style={{ background: "var(--accent)" }}
+          onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
+          onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
         >
           Start Exploring
         </button>
@@ -420,14 +420,14 @@ function ScrollExperience() {
   }));
 
   return (
-    <div className="min-h-screen" style={{ background: "#0f0f14" }}>
+    <div className="min-h-screen" style={{ background: "var(--bg)" }}>
       {/* Scroll hint */}
       <div
         className="hidden lg:flex fixed bottom-6 left-1/2 -translate-x-1/2 z-30 flex-col items-center gap-1 transition-opacity duration-700"
         style={{ opacity: showScrollHint ? 1 : 0, pointerEvents: "none" }}
       >
-        <span className="text-xs" style={{ color: "#565869" }}>Scroll to explore</span>
-        <ChevronDown size={16} color="#565869" className="animate-bounce" />
+        <span className="text-xs" style={{ color: "var(--faint)" }}>Scroll to explore</span>
+        <ChevronDown size={16} color="var(--faint)" className="animate-bounce" />
       </div>
 
       {/* Progress dots — one per chapter */}
@@ -437,13 +437,13 @@ function ScrollExperience() {
             <div
               className="w-2.5 h-2.5 rounded-full transition-all duration-300"
               style={{
-                background: dot.current ? "#7aa2f7" : dot.active ? "#7aa2f740" : "#21262d",
+                background: dot.current ? "var(--accent)" : dot.active ? "var(--accent-dim, rgba(59,130,246,0.25))" : "var(--border-color)",
                 transform: dot.current ? "scale(1.4)" : "scale(1)",
               }}
             />
             <span
               className="absolute right-6 whitespace-nowrap text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-              style={{ background: "#161b22", border: "1px solid #21262d", color: "#c9d1d9" }}
+              style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", color: "var(--fg)" }}
             >
               {dot.label}
             </span>
@@ -456,17 +456,17 @@ function ScrollExperience() {
         <div key={chIdx}>
           {/* Divider (skip for chapter 0) */}
           {ch.divider && (
-            <div className="max-w-3xl mx-auto py-16 px-4 text-center" style={{ borderTop: "1px solid #21262d" }}>
-              <p className="text-sm" style={{ color: "#565869" }}>{ch.divider.text}</p>
-              <p className="text-lg font-semibold mt-4" style={{ color: "#c9d1d9" }}>{ch.divider.heading}</p>
+            <div className="max-w-3xl mx-auto py-16 px-4 text-center" style={{ borderTop: "1px solid var(--border-color)" }}>
+              <p className="text-sm" style={{ color: "var(--faint)" }}>{ch.divider.text}</p>
+              <p className="text-lg font-semibold mt-4" style={{ color: "var(--fg)" }}>{ch.divider.heading}</p>
             </div>
           )}
 
           {/* Desktop: scrollytelling */}
           <div className="hidden lg:flex max-w-[1400px] mx-auto relative">
             <div className="sticky top-0 self-start w-[55%] h-screen overflow-y-auto p-6 flex flex-col justify-center">
-              <div className="text-xs font-mono mb-3" style={{ color: "#484f58" }}>
-                {ch.title} <span style={{ color: "#58a6ff" }}>/ {ch.subtitle}</span>
+              <div className="text-xs font-mono mb-3" style={{ color: "var(--faint)" }}>
+                {ch.title} <span style={{ color: "var(--accent)" }}>/ {ch.subtitle}</span>
               </div>
               <Terminal
                 scripts={ch.scripts}
@@ -488,11 +488,11 @@ function ScrollExperience() {
                       transform: globalStage >= chOffsets[chIdx] + i ? "translateY(0)" : "translateY(20px)",
                     }}
                   >
-                    <div className="text-xs font-mono mb-2" style={{ color: "#484f58" }}>
+                    <div className="text-xs font-mono mb-2" style={{ color: "var(--faint)" }}>
                       {chOffsets[chIdx] + i + 1} / {totalStages}
                     </div>
-                    <h2 className="text-xl font-semibold mb-3" style={{ color: "#c9d1d9" }}>{s.title}</h2>
-                    <p className="text-sm leading-relaxed" style={{ color: "#8b949e" }}>{s.body}</p>
+                    <h2 className="text-xl font-semibold mb-3" style={{ color: "var(--fg)" }}>{s.title}</h2>
+                    <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>{s.body}</p>
                   </div>
                 </div>
               ))}
@@ -501,13 +501,13 @@ function ScrollExperience() {
 
           {/* Mobile: linear */}
           <div className="lg:hidden max-w-2xl mx-auto px-4 py-8">
-            <div className="text-xs font-mono mb-4" style={{ color: "#484f58" }}>
-              {ch.title} <span style={{ color: "#58a6ff" }}>/ {ch.subtitle}</span>
+            <div className="text-xs font-mono mb-4" style={{ color: "var(--faint)" }}>
+              {ch.title} <span style={{ color: "var(--accent)" }}>/ {ch.subtitle}</span>
             </div>
             {ch.stages.map((s, i) => (
               <div key={i} className="mb-12">
-                <h2 className="text-lg font-semibold mb-2" style={{ color: "#c9d1d9" }}>{s.title}</h2>
-                <p className="text-sm leading-relaxed mb-4" style={{ color: "#8b949e" }}>{s.body}</p>
+                <h2 className="text-lg font-semibold mb-2" style={{ color: "var(--fg)" }}>{s.title}</h2>
+                <p className="text-sm leading-relaxed mb-4" style={{ color: "var(--muted)" }}>{s.body}</p>
                 <Terminal scripts={[ch.scripts[i]]} activeStage={0} />
               </div>
             ))}
@@ -517,10 +517,10 @@ function ScrollExperience() {
 
       {/* Outro */}
       <div className="max-w-xl mx-auto py-24 px-4 text-center">
-        <p className="text-lg font-semibold mb-3" style={{ color: "#c9d1d9" }}>
+        <p className="text-lg font-semibold mb-3" style={{ color: "var(--fg)" }}>
           That&apos;s Claude Code.
         </p>
-        <p className="text-sm mb-8" style={{ color: "#8b949e" }}>
+        <p className="text-sm mb-8" style={{ color: "var(--muted)" }}>
           An AI that works on your projects, learns how you like to work,
           and gets better the more you use it.
         </p>
@@ -530,7 +530,7 @@ function ScrollExperience() {
             target="_blank"
             rel="noopener noreferrer"
             className="px-5 py-2.5 rounded-lg font-medium text-white"
-            style={{ background: "#7aa2f7" }}
+            style={{ background: "var(--accent)" }}
           >
             Install Claude Code
           </a>
@@ -539,7 +539,7 @@ function ScrollExperience() {
             target="_blank"
             rel="noopener noreferrer"
             className="px-5 py-2.5 rounded-lg font-medium"
-            style={{ color: "#7aa2f7", border: "1px solid #21262d" }}
+            style={{ color: "var(--accent)", border: "1px solid var(--border-color)" }}
           >
             Read the docs
           </a>
@@ -547,7 +547,7 @@ function ScrollExperience() {
       </div>
 
       <footer className="px-4 py-8 text-center">
-        <p className="text-xs" style={{ color: "#21262d" }}>Built with Claude Code</p>
+        <p className="text-xs" style={{ color: "var(--border-color)" }}>Built with Claude Code</p>
       </footer>
     </div>
   );

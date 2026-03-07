@@ -1,75 +1,151 @@
+"use client";
+
 import Link from "next/link";
 
-const GUIDES = [
+interface Guide {
+  href: string;
+  title: string;
+  description: string;
+  tag: string;
+  color: string;
+  icon: string;
+  comingSoon?: boolean;
+}
+
+const TREE: { label: string; guides: Guide[] }[] = [
   {
-    href: "/claude-code",
-    title: "Claude Code",
-    description: "An AI that works directly on your projects. Watch it read, edit, test, and ship — all from a conversation.",
-    tag: "Interactive guide",
-    color: "#7aa2f7",
+    label: "Start here",
+    guides: [
+      { href: "/personal-ai", title: "Your Personal AI", description: "Give your AI a name, a personality, and memory", tag: "No tech needed", color: "#f0883e", icon: "chat" },
+    ],
   },
   {
-    href: "/context-management",
-    title: "Context Management",
-    description: "Your AI forgets everything between sessions. Here's how to give it memory, project knowledge, and team conventions.",
-    tag: "Interactive guide",
-    color: "#d2a8ff",
+    label: "Go deeper",
+    guides: [
+      { href: "/context-management", title: "Context & Memory", description: "How to give AI persistent memory and project knowledge", tag: "Interactive guide", color: "#d2a8ff", icon: "brain" },
+      { href: "/claude-code", title: "Claude Code", description: "An AI that works directly on your projects", tag: "Interactive guide", color: "#7aa2f7", icon: "terminal" },
+    ],
   },
   {
-    href: "/gpu-scheduling",
-    title: "GPU Scheduling",
-    description: "When you send a prompt to an AI, hundreds of GPUs decide who goes first. This is what that looks like.",
-    tag: "Live simulation",
-    color: "#3b82f6",
+    label: "Under the hood",
+    guides: [
+      { href: "/gpu-scheduling", title: "GPU Scheduling", description: "How hundreds of GPUs decide who goes first", tag: "Live simulation", color: "#3fb950", icon: "grid" },
+    ],
+  },
+  {
+    label: "Coming soon",
+    guides: [
+      { href: "#", title: "Prompt Engineering", description: "What actually makes a good prompt", tag: "Coming soon", color: "#f0883e", icon: "chat", comingSoon: true },
+      { href: "#", title: "How LLMs Work", description: "What happens when AI reads your message", tag: "Coming soon", color: "#58a6ff", icon: "layers", comingSoon: true },
+      { href: "#", title: "AI Agents", description: "When AI takes actions, not just answers", tag: "Coming soon", color: "#f778ba", icon: "agent", comingSoon: true },
+      { href: "#", title: "Building with APIs", description: "Add AI to your own apps", tag: "Coming soon", color: "#79c0ff", icon: "api", comingSoon: true },
+      { href: "#", title: "Fine-Tuning & RAG", description: "Make AI work on your data", tag: "Coming soon", color: "#56d364", icon: "data", comingSoon: true },
+    ],
   },
 ];
 
+const ICONS: Record<string, string> = {
+  terminal: "❯", brain: "◉", grid: "⊞", chat: "◇", layers: "◫", agent: "⬡", api: "⟁", data: "⊡",
+};
+
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8">
-      <div className="max-w-2xl w-full">
-        <h1 className="text-3xl font-bold mb-2" style={{ color: "#c9d1d9" }}>
-          Learn AI
-        </h1>
-        <p className="text-sm mb-12" style={{ color: "#8b949e" }}>
-          Visual, interactive guides to how AI actually works — no jargon, no prerequisites.
-        </p>
+    <div className="min-h-screen" style={{ background: "var(--bg)" }}>
+      <div className="max-w-2xl mx-auto px-6 py-16">
+        {/* Header */}
+        <div className="mb-16">
+          <h1 className="text-3xl font-bold mb-2" style={{ color: "var(--fg)" }}>Learn AI</h1>
+          <p className="text-sm" style={{ color: "var(--muted)" }}>
+            Interactive guides to how AI actually works. No jargon. Just explore.
+          </p>
+        </div>
 
-        <div className="flex flex-col gap-4">
-          {GUIDES.map((guide) => (
-            <Link
-              key={guide.href}
-              href={guide.href}
-              className="group rounded-xl p-6 transition-all hover:scale-[1.01]"
-              style={{ background: "#161b22", border: "1px solid #21262d" }}
-            >
-              <div className="flex items-start justify-between mb-3">
-                <h2 className="text-lg font-semibold" style={{ color: "#c9d1d9" }}>
-                  {guide.title}
-                </h2>
-                <span
-                  className="text-xs px-2 py-1 rounded-full"
-                  style={{ background: guide.color + "15", color: guide.color }}
+        {/* Tree */}
+        <div className="relative">
+          {/* Vertical line */}
+          <div
+            className="absolute left-[11px] top-4 bottom-4 w-px"
+            style={{ background: "var(--border-color)" }}
+          />
+
+          {TREE.map((section, si) => (
+            <div key={si} className="mb-10 last:mb-0">
+              {/* Section label with dot */}
+              <div className="flex items-center gap-3 mb-4 relative">
+                <div
+                  className="w-[23px] h-[23px] rounded-full flex items-center justify-center z-10 shrink-0"
+                  style={{ background: "var(--bg-surface)", border: "2px solid var(--border-color)" }}
                 >
-                  {guide.tag}
+                  <div
+                    className="w-2 h-2 rounded-full"
+                    style={{ background: si === TREE.length - 1 ? "var(--faint)" : "var(--accent)" }}
+                  />
+                </div>
+                <span className="text-xs font-medium uppercase tracking-wider" style={{ color: "var(--faint)" }}>
+                  {section.label}
                 </span>
               </div>
-              <p className="text-sm" style={{ color: "#8b949e" }}>
-                {guide.description}
-              </p>
-              <div
-                className="mt-4 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity"
-                style={{ color: guide.color }}
-              >
-                Start exploring →
+
+              {/* Cards */}
+              <div className="pl-10 flex flex-col gap-3">
+                {section.guides.map((g) => {
+                  const isComingSoon = g.comingSoon;
+
+                  const card = (
+                    <div
+                      className={`rounded-xl p-4 transition-all duration-200 ${isComingSoon ? "" : "group hover:translate-x-1"}`}
+                      style={{
+                        background: isComingSoon ? "var(--bg-surface)" : "var(--bg-card)",
+                        border: `1px solid var(--border-color)`,
+                        opacity: isComingSoon ? 0.5 : 1,
+                      }}
+                    >
+                      <div className="flex items-center gap-3 mb-2">
+                        <div
+                          className="w-7 h-7 rounded-md flex items-center justify-center text-sm shrink-0"
+                          style={{ background: g.color + (isComingSoon ? "08" : "12") }}
+                        >
+                          <span style={{ color: isComingSoon ? g.color + "40" : g.color }}>{ICONS[g.icon]}</span>
+                        </div>
+                        <h3 className="text-sm font-semibold" style={{ color: isComingSoon ? "var(--faint)" : "var(--fg)" }}>
+                          {g.title}
+                        </h3>
+                        <span
+                          className="text-xs px-2 py-0.5 rounded-full ml-auto shrink-0"
+                          style={{ background: g.color + (isComingSoon ? "08" : "10"), color: isComingSoon ? g.color + "50" : g.color }}
+                        >
+                          {g.tag}
+                        </span>
+                      </div>
+                      <p className="text-xs pl-10" style={{ color: isComingSoon ? "var(--faint)" : "var(--muted)" }}>
+                        {g.description}
+                      </p>
+                      {!isComingSoon && (
+                        <div className="text-xs pl-10 mt-2 font-medium opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: g.color }}>
+                          Explore →
+                        </div>
+                      )}
+                    </div>
+                  );
+
+                  if (isComingSoon) return <div key={g.title}>{card}</div>;
+
+                  return (
+                    <Link key={g.href} href={g.href}>
+                      {card}
+                    </Link>
+                  );
+                })}
               </div>
-            </Link>
+            </div>
           ))}
         </div>
 
-        <p className="text-xs mt-12 text-center" style={{ color: "#21262d" }}>
-          learn.justbuildapps.com
-        </p>
+        <div className="text-center mt-16">
+          <p className="text-xs" style={{ color: "var(--faint)" }}>
+            ⌘I to toggle dark mode
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -7,5 +7,10 @@ export const metadata: Metadata = {
 };
 
 export default function GpuSchedulingPage() {
-  return <GpuApp />;
+  // GPU simulator has its own dark theme baked in — force dark context
+  return (
+    <div className="dark" style={{ background: "#0f1117" }}>
+      <GpuApp />
+    </div>
+  );
 }
