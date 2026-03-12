@@ -2,7 +2,7 @@
 
 A hands-on course that takes you from your first prompt to building full-stack apps and automating your life. No jargon — just the skills that matter.
 
-**Live at:** [justbuildapps.com/learn](https://justbuildapps.com/learn)
+**Live at:** [savar.ai/learn](https://savar.ai/learn)
 
 ## Course Structure
 
