@@ -15,8 +15,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Learn AI — Interactive Guides",
-  description: "Visual, interactive guides to AI tools and infrastructure. Learn by watching, not reading.",
+  title: "Learn AI — From Zero to Full Automation",
+  description: "12 modules that take you from your first useful AI prompt to building full-stack apps and automating your life.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
